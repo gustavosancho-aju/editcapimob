@@ -52,3 +52,9 @@ test('rejects unsafe media, duplicate IDs, missing photo references and unbounde
   ]){const p=project();mutate(p);assert.throws(()=>validateProject(p));}
 });
 test('rejects a timeline beyond five minutes',()=>{const p=project();p.scenes=Array.from({length:40},(_,i)=>({...scene,id:'s'+i,duration:8}));assert.throws(()=>validateProject(p));});
+
+test('horizontal camera movement changes the crop even when image width fills output',()=>{
+  const s={...scene,motion:'pan-right'};
+  const a=sourceRect(2400,1600,1280,720,s,0), b=sourceRect(2400,1600,1280,720,s,1);
+  assert.ok(b.x>a.x);
+});

@@ -21,7 +21,8 @@ export function sourceRect(width, height, outputWidth, outputHeight, scene, prog
   const t = clamp(progress, 0, 1);
   const eased = t * t * (3 - 2 * t);
   const animation = scene.motion === 'zoom-in' ? 1 + eased * 0.12 :
-    scene.motion === 'zoom-out' ? 1.12 - eased * 0.12 : 1;
+    scene.motion === 'zoom-out' ? 1.12 - eased * 0.12 :
+    scene.motion === 'pan-left' || scene.motion === 'pan-right' ? 1.08 : 1;
   const zoom = clamp(scene.zoom, 1, 3) * animation;
   const aspect = outputWidth / outputHeight;
   let w = Math.min(width, height * aspect) / zoom;
