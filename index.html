@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101513">
+<title>EditCapImob — Estúdio criativo</title>
+<meta name="description" content="Transforme fotos de imóveis em sequências de vídeo. Explore detalhes, ajuste movimentos e crie sua apresentação.">
+<link rel="icon" href="public/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+<header class="topbar">
+<a class="brand" href="./" aria-label="EditCapImob, início"><span class="brand-mark">E<span>▸</span></span><span>EditCap<span class="mint">Imob</span></span><small>ESTÚDIO</small></a>
+<div class="project-heading"><input id="project-name" value="Meu primeiro imóvel" maxlength="80" aria-label="Nome do projeto"><span id="save-state">Projeto em arquivo · versão inicial</span></div>
+<div class="top-actions"><button id="open-project" class="quiet">Abrir projeto</button><button id="save-project" class="secondary">Salvar projeto</button><button id="export" class="primary" disabled>Exportar vídeo <span>↗</span></button></div>
+</header>
+<main>
+<aside class="media-panel">
+<div class="panel-heading"><h1>Suas fotos</h1><span id="photo-count" class="badge">0</span></div>
+<p class="subtle">Todo imóvel tem uma boa história.</p>
+<button id="upload" class="upload"><span class="upload-icon">＋</span><strong>Adicionar fotos</strong><small>JPG, PNG ou WebP · até 10 MB cada</small></button>
+<div id="drop-zone" class="drop-hint">Arraste as fotos para esta área</div>
+<div id="photo-library" class="photo-library"></div>
+<div id="library-empty" class="empty-note">Envie fotos para começar ou <button id="demo" class="text-button">experimente uma foto de exemplo</button>.</div>
+<div class="privacy-note"><span>↳</span><p>Nesta versão, suas fotos ficam nesta sessão. Use <strong>Salvar projeto</strong> para guardar fotos e edições em um arquivo.</p></div>
+</aside>
+<section class="workspace" aria-label="Editor de vídeo">
+<div class="workspace-toolbar"><div><span class="eyebrow">ESTÚDIO CRIATIVO</span><h2>Um novo olhar para seu imóvel.</h2></div><label class="format-control">Formato<select id="format"><option value="16:9">Horizontal · 16:9</option><option value="9:16">Vertical · 9:16</option><option value="1:1">Quadrado · 1:1</option></select></label></div>
+<div class="stage">
+<canvas id="preview" width="1280" height="720" aria-label="Prévia da cena selecionada"></canvas>
+<div id="stage-empty" class="stage-empty"><div class="frame-icon">▣</div><h3>Seu próximo vídeo começa com uma foto.</h3><p>Mostre o ambiente. Explore os detalhes.<br>Dê movimento à apresentação.</p><button id="stage-upload" class="primary">Escolher fotos</button></div>
+<div id="stage-label" class="stage-label" hidden>PRÉVIA · 720p</div>
+</div>
+<div class="playback"><button id="play" class="play-button" aria-label="Reproduzir vídeo" disabled>▶</button><output id="time">00:00 / 00:00</output><input id="scrubber" type="range" min="0" max="0" value="0" step="0.05" aria-label="Posição da reprodução" disabled><span id="scene-counter">Nenhuma cena</span></div>
+<section class="timeline-section" aria-label="Sequência do vídeo"><div class="timeline-heading"><h3>Seu roteiro visual</h3><span id="duration">0 cenas · 0s</span></div><div id="timeline" class="timeline"><p class="empty-timeline">Adicione uma foto à sequência e comece a contar a história.</p></div></section>
+<div class="audio-bar"><span>♫</span><div><strong id="music-name">Trilha sonora</strong><small id="music-description">Adicione uma música que você tenha autorização para usar.</small></div><button id="add-music" class="quiet">Adicionar áudio</button><button id="remove-music" class="icon-button" aria-label="Remover música" hidden>×</button></div>
+</section>
+<aside class="inspector">
+<div class="panel-heading"><h2>Direção criativa</h2><span class="spark">✦</span></div>
+<div class="mode-tabs" role="tablist" aria-label="Formato de criação"><button id="motion-tab" role="tab" aria-selected="true" class="active">Foto em movimento</button><button id="ai-tab" role="tab" aria-selected="false">Cena com IA</button></div>
+<div id="ai-panel" hidden class="integration-note"><span class="spark">✦</span><h3>Câmera virtual com IA</h3><p>Este modo fará a foto ganhar um novo movimento de câmera.</p><p><strong>Integração ainda não ativada.</strong> Nesta versão não há geração, análise automática nem cobrança de créditos.</p><button id="back-motion" class="secondary">Editar com fotos</button></div>
+<fieldset id="scene-settings" disabled>
+<legend class="sr-only">Ajustes da cena</legend>
+<label>Ambiente<select id="room"><option>A classificar</option><option>Fachada</option><option>Sala</option><option>Cozinha</option><option>Quarto</option><option>Banheiro</option><option>Varanda</option><option>Área de lazer</option><option>Outro</option></select></label>
+<p class="field-note">Classificação manual nesta versão.</p>
+<div class="explore-card"><span class="eyebrow">UMA FOTO, NOVAS POSSIBILIDADES</span><h3>Explore os detalhes.</h3><p>Crie até quatro enquadramentos e escolha o que merece destaque.</p><button id="explore" class="primary full">▧ Explorar esta foto</button></div>
+<label>Texto da cena<input id="caption" maxlength="100" placeholder="Ex.: Espaço para viver bem"></label>
+<div class="two-fields"><label>Duração<select id="seconds"><option value="3">3 segundos</option><option value="4" selected>4 segundos</option><option value="5">5 segundos</option><option value="6">6 segundos</option><option value="8">8 segundos</option></select></label><label>Movimento<select id="motion"><option value="zoom-in">Aproximar</option><option value="zoom-out">Afastar</option><option value="pan-left">Para a esquerda</option><option value="pan-right">Para a direita</option><option value="still">Sem movimento</option></select></label></div>
+<label>Aproximação <output id="zoom-value">1.00×</output><input id="zoom" type="range" min="1" max="3" step="0.05" value="1"></label>
+<label>Foco horizontal<input id="focus-x" type="range" min="0" max="1" step="0.01" value="0.5"></label>
+<label>Foco vertical<input id="focus-y" type="range" min="0" max="1" step="0.01" value="0.5"></label>
+<p id="resolution-warning" class="warning" hidden>Este recorte pode perder nitidez na exportação. Diminua a aproximação.</p>
+<button id="download-frame" class="secondary full">Baixar este enquadramento</button>
+</fieldset>
+<div class="brand-settings"><h3>Sua assinatura</h3><label>Nome ou imobiliária<input id="brand" maxlength="60" placeholder="Seu nome ou sua marca"></label><label>Contato<input id="contact" maxlength="60" placeholder="WhatsApp ou @instagram"></label></div>
+</aside>
+</main>
+<footer class="bottom-bar"><span>EDITCAPIMOB <span class="muted">/</span> PRIMEIRA VERSÃO</span><span>Fotos originais. Novos enquadramentos.</span></footer>
+<dialog id="explore-dialog"><div class="dialog-heading"><div><span class="eyebrow">EXPLORE SUA FOTO</span><h2>Um ambiente. Quatro olhares.</h2></div><button class="icon-button" id="close-explore" aria-label="Fechar">×</button></div><p>Recortes sugeridos por posição, sem análise de IA. Ajuste o foco de cada cena para destacar o objeto desejado.</p><div id="crop-options" class="crop-options"></div><div class="dialog-footer"><span>Os detalhes continuam fiéis à foto original.</span><button id="add-all-crops" class="primary">Adicionar os 4 à sequência</button></div></dialog>
+<dialog id="export-dialog"><h2 id="export-heading">Preparando seu vídeo</h2><p id="export-info">Mantenha esta aba aberta durante a gravação.</p><progress id="export-progress" value="0" max="100"></progress><output id="export-percent">0%</output><div class="dialog-footer"><button id="cancel-export" class="secondary">Cancelar</button></div></dialog>
+<input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp" multiple hidden>
+<input type="file" id="project-input" accept=".json,application/json" hidden>
+<input type="file" id="music-input" accept="audio/mpeg,audio/wav,audio/ogg,audio/mp4,audio/aac" hidden>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+<script type="module" src="src/app.js"></script>
+</body></html>
